@@ -10,8 +10,7 @@
 export default {
     props: {
         images: {
-            required: true,
-            type: Array
+            required: true
         }
     }
 }
