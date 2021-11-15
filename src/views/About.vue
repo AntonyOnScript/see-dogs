@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <h1>Developed by Antony Santhiago with Vue.js</h1>
   </div>
 </template>
 
@@ -8,3 +8,17 @@
 export default {
 }
 </script>
+
+<style scoped>
+  div {
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  h1 {
+    text-align: center;
+  }
+</style>
