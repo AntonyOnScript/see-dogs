@@ -2,8 +2,10 @@
   <div>
     <h1>{{ title }}{{ breedTitle }}</h1>
     <hr>
-    <input type="text" @input="typeSearch($event)" placeholder="Search by breed">
-    <p v-if="preSearch">Search suggest: {{ preSearch }}</p>
+    <h1 class="subtitle">Dogs By Breed</h1>
+    <div class="search-bar-container">
+      <input type="text" class="search-bar" @input="typeSearch($event)" placeholder="Search by breed">
+    </div>
     <div class="dogs-container">
       <image-container :images="images"></image-container>
     </div>
@@ -105,3 +107,23 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .subtitle {
+    text-align: center;
+    margin: 10px 0px;
+  }
+
+  .search-bar {
+    border: solid 1px black;
+    background: white;
+    outline: none;
+    padding: 10px;
+  }
+
+  .search-bar-container {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0px;
+  }
+</style>
