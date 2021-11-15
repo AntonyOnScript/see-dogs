@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>{{ title }}</h1>
+    <h1>{{ title }}{{ breedTitle }}</h1>
     <hr>
     <input type="text" @input="typeSearch($event)" placeholder="Search by breed">
     <p v-if="preSearch">Search suggest: {{ preSearch }}</p>
@@ -19,14 +19,23 @@ export default {
   },
   data() {
     return {
-      title: "Home",
+      title: "Breeds",
       images: [],
       breeds: [],
       filter: '',
-      preSearch: ''
+      preSearch: '',
+      breedTitle: ''
     }
   },
   methods: {
+    setPreSearch(value) {
+      this.preSearch = value
+      if(value === '') {
+        this.breedTitle = value
+      } else {
+        this.breedTitle = ` - ${value}`
+      }
+    },
     typeSearch($event) {
       let value = $event.target.value
       this.filter = value
@@ -34,14 +43,14 @@ export default {
         let regex = new RegExp(this.filter, "i")
         this.breeds.forEach(breed => {
           if(regex.test(breed) && breed.indexOf(this.filter) === 0) {
-            this.preSearch = breed
+            this.setPreSearch(breed)
             setTimeout(() => {
               this.dogsByBreed(this.preSearch, 10, 0, false)
             }, 200)
           }
         })
       } else {
-        this.preSearch = ''
+        this.setPreSearch('')
         this.dogsCategory()
       }
     },
@@ -56,7 +65,6 @@ export default {
           this.images.push(response.body.message[i])
         }
       })
-      console.log(this.images)
     },
     dogsCategory(length = 10, since = 0, update = false) { // it loads a photo of each breed
       if(!update) this.images = []
@@ -71,7 +79,6 @@ export default {
           this.images.push(categoryImage)
         })
       }
-      console.log(this.images)
     }
   },
   created() {
@@ -88,13 +95,10 @@ export default {
       var height = d.offsetHeight;
 
       if (offset >= height) {
-        console.log('At the bottom');
         if(!this.preSearch) {
-          console.log(1)
-          this.dogsCategory(this.images.length*2, this.images.length, true)
+          this.dogsCategory(this.images.length+10, this.images.length, true)
         } else {
-          console.log(2)
-          this.dogsByBreed(this.preSearch, this.images.length*2, this.images.length, true)
+          this.dogsByBreed(this.preSearch, this.images.length+10, this.images.length, true)
         }
       }
     }
