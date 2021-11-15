@@ -35,7 +35,9 @@ export default {
         this.breeds.forEach(breed => {
           if(regex.test(breed) && breed.indexOf(this.filter) === 0) {
             this.preSearch = breed
-            this.dogsByBreed(this.preSearch)
+            setTimeout(() => {
+              this.dogsByBreed(this.preSearch, 10, 0, false)
+            }, 200)
           }
         })
       } else {
@@ -43,25 +45,29 @@ export default {
         this.dogsCategory()
       }
     },
-    dogsByBreed(breed) {
-      this.images = []
+    dogsByBreed(breed, length = 10, since = 0, update = false) { // it loads photos of one specific breed
+      if(!update) this.images = []
       this.$http.get("https://dog.ceo/api/breed/"+breed+"/images")
       .then(response => {
-        for(let i = 0; i <= 10; i++) {
-          if(i === 10) break;
-          console.log("DEBUG: "+ response.body.message[i])
+        for(let i = since; i <= length; i++) {
+          if(i === length) break;
+          if(!response.body.message[i]) break;
+          if(this.images.indexOf(response.body.message[i]) !== -1) continue;
           this.images.push(response.body.message[i])
         }
       })
+      console.log(this.images)
     },
-    dogsCategory() {
-      this.images = []
-      for(let i = 0; i <= 10; i++) {
-        if(i === 10) break;
+    dogsCategory(length = 10, since = 0, update = false) { // it loads a photo of each breed
+      if(!update) this.images = []
+      for(let i = since; i <= length; i++) {
+        if(i === length) break;
+        if(!this.breeds[i]) break;
         let breed = this.breeds[i]
         this.$http.get("https://dog.ceo/api/breed/"+breed+"/images")
         .then(response => {
           let categoryImage = response.body.message[0]
+          if(this.images.indexOf(categoryImage) !== -1) return;
           this.images.push(categoryImage)
         })
       }
@@ -69,11 +75,29 @@ export default {
     }
   },
   created() {
-    this.$http.get("https://dog.ceo/api/breeds/list/all")
+    this.$http.get("https://dog.ceo/api/breeds/list/all") // it defines breeds list and call dogsCategory method, wich loads 10 categories by default
     .then(response => {
       this.breeds = Object.keys(response.body.message)
       this.dogsCategory()
     })
+  },
+  mounted() {
+    window.onscroll = () => {
+      var d = document.documentElement;
+      var offset = d.scrollTop + window.innerHeight;
+      var height = d.offsetHeight;
+
+      if (offset >= height) {
+        console.log('At the bottom');
+        if(!this.preSearch) {
+          console.log(1)
+          this.dogsCategory(this.images.length*2, this.images.length, true)
+        } else {
+          console.log(2)
+          this.dogsByBreed(this.preSearch, this.images.length*2, this.images.length, true)
+        }
+      }
+    }
   }
 }
 </script>
