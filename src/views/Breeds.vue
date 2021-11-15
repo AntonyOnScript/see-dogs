@@ -1,7 +1,5 @@
 <template>
   <div>
-    <h1>{{ title }}{{ breedTitle }}</h1>
-    <hr>
     <h1 class="subtitle">Dogs By Breed</h1>
     <div class="search-bar-container">
       <input type="text" class="search-bar" @input="typeSearch($event)" placeholder="Search by breed">
@@ -37,6 +35,7 @@ export default {
       } else {
         this.breedTitle = ` - ${value}`
       }
+      this.$emit("theBreed", this.breedTitle)
     },
     typeSearch($event) {
       let value = $event.target.value

@@ -1,9 +1,9 @@
 <template>
   <div class="app">
     <div class="nav">
-      <views-menu :links="links" />
+      <views-menu :links="links" :title="currentRouteName" />
     </div>
-    <router-view />
+    <router-view @theBreed="setBreedAtTitle($event)" />
   </div>
 </template>
 
@@ -17,9 +17,28 @@ export default {
   },
   data() {
     return {
-      links: routes
+      links: routes,
+      title: ''
     }
-  }
+  },
+  computed: {
+    currentRouteName() {
+      return {
+        route: this.$route.name,
+        title: this.title
+      }
+    }
+  },
+  methods: {
+    setBreedAtTitle(breed) {
+      this.title = breed
+    }
+  },
+  watch:{
+    $route (){
+      this.title = ''
+    }
+  } 
 }
 </script>
 

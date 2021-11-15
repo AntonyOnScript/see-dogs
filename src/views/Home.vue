@@ -1,7 +1,5 @@
 <template>
   <div>
-    <h1>{{ title }}</h1>
-    <hr>
     <h1 class="subtitle">Random Dogs :D</h1>
     <div class="dogs-container">
       <image-container :images="images"></image-container>
