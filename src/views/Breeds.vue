@@ -2,7 +2,7 @@
   <div>
     <h1 class="subtitle">Dogs By Breed</h1>
     <div class="search-bar-container">
-      <input type="text" class="search-bar" @input="typeSearch($event)" placeholder="Search by breed">
+      <input type="text" class="search-bar" @input="typeSearch($event)" placeholder="Tell me a breed...">
     </div>
     <div class="dogs-container">
       <image-container :images="images"></image-container>
@@ -24,14 +24,14 @@ export default {
       breeds: [],
       filter: '',
       preSearch: '',
-      breedTitle: ''
+      breedTitle: ' - All breeds'
     }
   },
   methods: {
     setPreSearch(value) {
       this.preSearch = value
       if(value === '') {
-        this.breedTitle = value
+        this.breedTitle = " - All breeds"
       } else {
         this.breedTitle = ` - ${value}`
       }
@@ -88,6 +88,7 @@ export default {
       this.breeds = Object.keys(response.body.message)
       this.dogsCategory()
     })
+    this.$emit("theBreed", this.breedTitle)
   },
   mounted() {
     window.onscroll = () => {
