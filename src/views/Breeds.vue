@@ -43,7 +43,7 @@ export default {
       if(this.filter) {
         let regex = new RegExp(this.filter, "i")
         this.breeds.forEach(breed => {
-          if(regex.test(breed) && breed.indexOf(this.filter) === 0) {
+          if(regex.test(breed) && breed.indexOf(this.filter.toLowerCase()) === 0) {
             this.setPreSearch(breed)
             setTimeout(() => {
               this.dogsByBreed(this.preSearch, 10, 0, false)
