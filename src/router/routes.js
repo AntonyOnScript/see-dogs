@@ -9,13 +9,13 @@ export const routes = [
         component: Home
     },
     {
-        path: '/about',
-        name: 'About',
-        component: About
-    },
-    {
         path: '/breeds',
         name: 'Breeds',
         component: Breeds
+    },
+    {
+        path: '/about',
+        name: 'About',
+        component: About
     }
 ]
