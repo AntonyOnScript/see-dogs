@@ -1,4 +1,5 @@
 <template>
+  <!-- @AntonyOnScript -->
   <div class="app">
     <div class="nav">
       <views-menu :links="links" :title="currentRouteName" />
